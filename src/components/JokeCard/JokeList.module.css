@@ -13,6 +13,9 @@
 .icon_mess {
   padding: 0 25px 70px 0;
 }
+.icon_heart {
+    cursor: pointer;
+}
 .jokes_block p {
     font-size: 18px;
     width: 540px;

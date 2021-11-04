@@ -1,8 +1,8 @@
-import Icons, {Heart, Link} from './Icons'
+import Icons, {Heart, Link} from '../Icons'
 import styles from './JokeList.module.css'
 
 
-function JokeList({ randomJoke }) {
+function CategorieList({ jokes }) {
 
 
     return(
@@ -11,13 +11,13 @@ function JokeList({ randomJoke }) {
             <span className={styles.icon_mess}>{Icons}</span>
             <div className={styles.jokes_block}>
                 <div className={styles.updateNCategory}>
-                <span className={styles.id_joke}>ID: <a href={randomJoke.url}>{randomJoke.id}<span>{Link}</span></a></span>
+                <span className={styles.id_joke}>ID: <a href={jokes.url}>{jokes.id}<span>{Link}</span></a></span>
                 <span className={styles.icon_heart}>{Heart}</span>
                 </div>
-                <p>{randomJoke.value}</p>
+                <p>{jokes.value}</p>
                 <div className={styles.updateNCategory}>
-                <span className={styles.update_joke}>Last updated: {randomJoke.updated_at}</span>
-                <span className={styles.categories}>{randomJoke.categories}</span>
+                <span className={styles.update_joke}>Last updated: {jokes.updated_at}</span>
+                <span className={styles.categories}>{jokes.categories}</span>
                 </div>
             </div>
 
@@ -27,4 +27,4 @@ function JokeList({ randomJoke }) {
     )
 }
 
-export default JokeList
+export default CategorieList
