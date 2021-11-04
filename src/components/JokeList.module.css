@@ -1,0 +1,50 @@
+.joke_block {
+    min-width: 680px;
+    min-height: 225px;
+    padding: 20px;
+    background: #F8F8F8;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 26px;
+    position: relative;
+}
+.icon_mess {
+  padding: 0 25px 70px 0;
+}
+.jokes_block p {
+    font-size: 18px;
+    width: 540px;
+}
+.id_joke {
+    font-size: 10px;
+    color: #ABABAB;
+}
+.id_joke a {
+    color: #8EA7FF;
+}
+.id_joke span {
+    margin-left: 5px;
+}
+.categories {
+    width: 107px;
+    height: 24px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #333333;
+    background-color: #fff;
+    text-align: center;
+}
+.update_joke {
+    font-size: 10px;
+    color: #ABABAB;
+}
+.updateNCategory {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
