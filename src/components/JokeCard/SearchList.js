@@ -7,9 +7,10 @@ function SearchList({
   handleAddToLocalStorage,
   handleOnClickRemove,
   favourites,
-}) {
+}) { 
     return (
     <>
+    {jokes.length === 0 ? <p className={styles.errSearch}>Nothing was Found &#129488;</p> : null}
       {jokes.map((joke) => {
         const isFavourite = Boolean(
           favourites.find((favouriteFilm) => favouriteFilm.id === joke.id)
@@ -42,7 +43,17 @@ function SearchList({
                 <span className={styles.update_joke}>
                   Last updated: {joke.updated_at}
                 </span>
-                <span className={styles.categories}>{joke.categories}</span>
+                <span
+                  className={
+                    joke.categories === undefined
+                      ? null
+                      : joke.categories.length === 1
+                      ? styles.categories
+                      : null
+                  }
+                >
+                  {joke.categories}
+                </span>
               </div>
             </div>
           </div>

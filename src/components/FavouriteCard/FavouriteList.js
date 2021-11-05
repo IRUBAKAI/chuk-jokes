@@ -19,7 +19,7 @@ function FavouriteList({ favourites, setFavourites, handleOnClickRemove }) {
         <h1>Favourite</h1>
         {favourites.map((favourite) => {
           return (
-            <div className={styles.joke_block}>
+            <div key={favourite.id} className={styles.joke_block}>
               <span className={styles.icon_mess}>{Icons}</span>
               <div className={styles.jokes_block}>
                 <div className={styles.updateNCategory}>
@@ -42,9 +42,17 @@ function FavouriteList({ favourites, setFavourites, handleOnClickRemove }) {
                   <span className={styles.update_joke}>
                     Last updated: {favourite.updated_at}
                   </span>
-                  <span className={styles.categories}>
-                    {favourite.categories}
-                  </span>
+                  <span
+                  className={
+                    favourite.categories === undefined
+                      ? null
+                      : favourite.categories.length === 1
+                      ? styles.categories
+                      : null
+                  }
+                >
+                  {favourite.categories}
+                </span>
                 </div>
               </div>
             </div>

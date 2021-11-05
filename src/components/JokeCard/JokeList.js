@@ -42,7 +42,18 @@ function JokeList({
                 <span className={styles.update_joke}>
                   Last updated: {joke.updated_at}
                 </span>
-                <span className={styles.categories}>{joke.categories}</span>
+
+                <span
+                  className={
+                    joke.categories === undefined
+                      ? null
+                      : joke.categories.length === 1
+                      ? styles.categories
+                      : null
+                  }
+                >
+                  {joke.categories}
+                </span>
               </div>
             </div>
           </div>

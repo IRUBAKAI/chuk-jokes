@@ -63,6 +63,7 @@ function Main() {
         .then((res) => res.json())
         .then((data) => setJokes(data))
         .catch((err) => console.log(err));
+        setStatus(3)
     }
     if (checkedSearchInput.checked === true) {
       fetch(`https://api.chucknorris.io/jokes/search?query=${search}`)
@@ -109,7 +110,7 @@ function Main() {
           </label>
 
           <div
-            className={
+            className={status === 3 ? styles.categorie_btns_block :
               status === 2 ? styles.categorie_btns_block : styles.unActive
             }
           >
@@ -121,13 +122,13 @@ function Main() {
               type="radio"
               name="name1"
               onChange={(event) =>
-                setCheckedSearchInput(event.target) & setStatus(3)
+                setCheckedSearchInput(event.target) & setStatus(4)
               }
             />
             Search
           </label>
 
-          {status === 3 ? (
+          {status === 4 ? (
             <input
               type="text"
               className={styles.searchInput}
@@ -153,7 +154,7 @@ function Main() {
           />
         </div>
 
-        <div className={status === 2 ? styles.active : styles.unActive}>
+        <div className={status === 3 ? styles.active : styles.unActive}>
           <Categories
             jokes={[jokes]}
             handleAddToLocalStorage={handleAddToLocalStorage}
@@ -162,7 +163,7 @@ function Main() {
           />
         </div>
 
-        <div className={status === 3 ? styles.active : styles.unActive}>
+        <div className={status === 4 ? styles.active : styles.unActive}>
           <SearchList
             jokes={searchJokes}
             handleAddToLocalStorage={handleAddToLocalStorage}
