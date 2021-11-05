@@ -16,7 +16,7 @@ function CategorieBtns({ categorie, setCategorie }) {
           </button>
           <button
             type="button"
-            className={categorie === 'carrer' ? styles.categorie_btns_active : styles.categorie_btns}
+            className={categorie === 'career' ? styles.categorie_btns_active : styles.categorie_btns}
             value='career'
             onClick={(e) => setCategorie(e.target.value)}
           >

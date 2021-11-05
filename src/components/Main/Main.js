@@ -8,11 +8,13 @@ import CategorieBtns from "../CategorieBtns";
 
 function Main() {
   const [jokes, setJokes] = useState([]);
+  const [searchJoke, setSearchJoke] = useState([]);
   const [checkedRandomInput, setCheckedRandomInput] = useState(false);
 
   const [checkedCategoriesInput, setCheckedCategoriesInput] = useState(false);
   const [categorie, setCategorie] = useState("");
 
+  const [search, setSearch] = useState("");
   const [checkedSearchInput, setCheckedSearchInput] = useState(false);
   const [status, setStatus] = useState(0);
 
@@ -37,6 +39,12 @@ function Main() {
       fetch(`https://api.chucknorris.io/jokes/random?category=${categorie}`)
         .then((res) => res.json())
         .then((data) => setJokes(data));
+        setJokes([])
+    }
+    if (checkedSearchInput.checked === true) {
+      fetch(`https://api.chucknorris.io/jokes/search?query=${search}`)
+        .then((res) => res.json())
+        .then((data) => setSearchJoke([data]));
     }
   };
 
@@ -54,7 +62,9 @@ function Main() {
               type="radio"
               name="name1"
               onChange={(event) =>
-                setCheckedRandomInput(event.target) & setStatus(0)
+                setCheckedRandomInput(event.target) &
+                setStatus(0) &
+                setSearch("")
               }
             />
             Random
@@ -67,7 +77,8 @@ function Main() {
               onChange={(event) =>
                 fetchCategories() &
                 setCheckedCategoriesInput(event.target) &
-                setStatus(2)
+                setStatus(2) &
+                setSearch("")
               }
             />
             From categories
@@ -97,6 +108,7 @@ function Main() {
               type="text"
               className={styles.searchInput}
               placeholder="Free text search..."
+              onChange={(event) => setSearch(event.target.value)}
             />
           ) : null}
         </form>
@@ -108,16 +120,17 @@ function Main() {
           Get a joke
         </button>
 
+        {console.log(status)}
         <div className={status === 2 ? styles.active : styles.unActive}>
           <Categories jokes={jokes} />
         </div>
 
         <div className={status === 3 ? styles.active : styles.unActive}>
-          <SearchList />
-        </div>
+          <SearchList jokes={searchJoke} />
+        </div> 
 
         <div className={status === 1 ? styles.active : styles.unActive}>
-          <JokeList jokes={jokes} />
+          <JokeList jokes={[jokes]} />
         </div>
       </div>
       <FavouriteList />

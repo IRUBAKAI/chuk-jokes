@@ -1,106 +1,106 @@
-body, html {
-    padding: 0;
-    margin: 0;
+body,
+html {
+  padding: 0;
+  margin: 0;
 }
 * {
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-    color: #333333;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  color: #333333;
 }
 .main_sec {
-    width: 100%;
-    margin-bottom: 100px;
-    position: relative;
+  width: 100%;
+  margin-bottom: 100px;
+  position: relative;
 }
 
 .content {
-    padding: 40px 140px 0;
-    max-width: 600px;
+  padding: 40px 140px 0;
+  max-width: 600px;
 }
 .title {
-    margin: 78px 0 43px;
+  margin: 78px 0 43px;
 }
-.title h1{
-    font-weight: bold;
+.title h1 {
+  font-weight: bold;
 }
 .title h2 {
-    font-weight: 500;
+  font-weight: 500;
 }
 .checkbox_block {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 .checkbox_block label {
-    font-size: 18px;
-    line-height: 26px;
-    margin: 10px 0;
+  font-size: 18px;
+  line-height: 26px;
+  margin: 10px 0;
 }
 .checkbox_block input {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 .searchInput {
-    width: 680px;
-    height: 42px;
-    border: 2px solid #333333;
-    border-radius: 10px;
-    margin-top: 20px;
-    padding: 10px 15px;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 22px;
+  width: 680px;
+  height: 42px;
+  border: 2px solid #333333;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 10px 15px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
 }
 .searchInput::placeholder {
-    color: #ABABAB;
+  color: #ababab;
 }
 .getJoke_btn {
-    font-size: 16px;
-    width: 152px;
-    height: 42px;
-    font-weight: bold;
-    color: #fff;
-    background: linear-gradient(90.55deg, #8EA7FF 0%, #7291FF 100%);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-bottom: 40px;
+  font-size: 16px;
+  width: 152px;
+  height: 42px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(90.55deg, #8ea7ff 0%, #7291ff 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 40px;
 }
 .unActive {
-    display: none;
+  display: none;
 }
 .active {
-    display: block;
+  display: block;
 }
 .categorie_btns_block {
-    width: 680px;
+  width: 680px;
 }
 .categorie_btns {
-    width: 95px;
-    height: 28px;
-    border: 2px solid #F8F8F8;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: 2px;
-    color: #ABABAB;
-    margin: 20px 10px;
-    cursor: pointer;
-    text-transform: uppercase;
+  width: 95px;
+  height: 28px;
+  border: 2px solid #f8f8f8;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 2px;
+  color: #ababab;
+  margin: 20px 10px;
+  cursor: pointer;
+  text-transform: uppercase;
 }
 .categorie_btns_active {
-    width: 95px;
-    height: 28px;
-    background: #F8F8F8;
-    border: 2px solid #333333;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: 2px;
-    color: #333333;
-    margin: 20px 10px;
-    cursor: pointer;
-    text-transform: uppercase;
+  width: 95px;
+  height: 28px;
+  background: #f8f8f8;
+  border: 2px solid #333333;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 2px;
+  color: #333333;
+  margin: 20px 10px;
+  cursor: pointer;
+  text-transform: uppercase;
 }
-

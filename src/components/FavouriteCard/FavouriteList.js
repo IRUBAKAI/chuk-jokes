@@ -3,7 +3,6 @@
 // import Icons, { fillHeart, Link } from "../Icons";
 
 function FavouriteList({jokes}) {
-
   return (
     <>
      {/* <div className={styles.favourite_block}>
