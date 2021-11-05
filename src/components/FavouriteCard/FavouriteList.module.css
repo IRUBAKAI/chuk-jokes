@@ -1,10 +1,7 @@
 .favourite_block {
-  width: 480px;
-  height: 100%;
+  min-width: 480px;
+  min-height: 935px;
   background: #f8f8f8;
-  position: fixed;
-  top: 0;
-  right: 0;
   padding: 40px;
 }
 .favourite_block h1 {
@@ -71,4 +68,7 @@
 .updateNCategory {
   display: flex;
   justify-content: space-between;
+}
+.favouriteMenu {
+  display: none;
 }

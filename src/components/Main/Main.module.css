@@ -10,8 +10,9 @@ html {
 }
 .main_sec {
   min-width: 100%;
-  margin-bottom: 100px;
-  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 .content {
   padding: 40px 140px 0;
@@ -63,7 +64,7 @@ html {
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  margin-bottom: 40px;
+  margin: 20px 0 40px;
 }
 .unActive {
   display: none;

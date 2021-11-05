@@ -8,16 +8,16 @@ import CategorieBtns from "../CategorieBtns";
 
 function Main() {
   const [jokes, setJokes] = useState([]);
+  const [searchJokes, setSearchJokes] = useState([]);
   const [favourites, setFavourites] = useState([]);
-  const [searchJoke, setSearchJoke] = useState([]);
-  const [checkedRandomInput, setCheckedRandomInput] = useState(false);
-
-  const [checkedCategoriesInput, setCheckedCategoriesInput] = useState(false);
-  const [categorie, setCategorie] = useState("");
-
-  const [search, setSearch] = useState("");
-  const [checkedSearchInput, setCheckedSearchInput] = useState(false);
   const [status, setStatus] = useState(0);
+
+  const [categorie, setCategorie] = useState("");
+  const [search, setSearch] = useState("");
+
+  const [checkedRandomInput, setCheckedRandomInput] = useState(false);
+  const [checkedCategoriesInput, setCheckedCategoriesInput] = useState(false);
+  const [checkedSearchInput, setCheckedSearchInput] = useState(false);
 
   function handleAddToLocalStorage(joke) {
     const newFavouriteList = [...favourites, joke];
@@ -67,10 +67,9 @@ function Main() {
     if (checkedSearchInput.checked === true) {
       fetch(`https://api.chucknorris.io/jokes/search?query=${search}`)
         .then((res) => res.json())
-        .then((data) => setSearchJoke([data]));
+        .then((data) => setSearchJokes(data.result));
     }
   };
-
 
   return (
     <div className={styles.main_sec}>
@@ -135,14 +134,23 @@ function Main() {
               onChange={(event) => setSearch(event.target.value)}
             />
           ) : null}
+
+          <input
+            type="button"
+            className={styles.getJoke_btn}
+            onClick={() => handleRandomJokeAdd()}
+            value="Get a joke"
+          />
         </form>
 
-        <button
-          className={styles.getJoke_btn}
-          onClick={() => handleRandomJokeAdd()}
-        >
-          Get a joke
-        </button>
+        <div className={status === 1 ? styles.active : styles.unActive}>
+          <JokeList
+            jokes={[jokes]}
+            handleAddToLocalStorage={handleAddToLocalStorage}
+            handleOnClickRemove={handleOnClickRemove}
+            favourites={favourites}
+          />
+        </div>
 
         <div className={status === 2 ? styles.active : styles.unActive}>
           <Categories
@@ -155,16 +163,7 @@ function Main() {
 
         <div className={status === 3 ? styles.active : styles.unActive}>
           <SearchList
-            jokes={searchJoke}
-            handleAddToLocalStorage={handleAddToLocalStorage}
-            handleOnClickRemove={handleOnClickRemove}
-            favourites={favourites}
-          />
-        </div>
-
-        <div className={status === 1 ? styles.active : styles.unActive}>
-          <JokeList
-            jokes={[jokes]}
+            jokes={searchJokes}
             handleAddToLocalStorage={handleAddToLocalStorage}
             handleOnClickRemove={handleOnClickRemove}
             favourites={favourites}

@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import styles from "./FavouriteList.module.css";
-import Icons, { fillHeart, Link } from "../Icons";
+import Icons, { favouriteMenu, fillHeart, Link } from "../Icons";
 
 function FavouriteList({ favourites, setFavourites, handleOnClickRemove }) {
+
+
   useEffect(() => {
     const movieFavourites = JSON.parse(
       localStorage.getItem("joke-to-favourite")
@@ -12,11 +14,12 @@ function FavouriteList({ favourites, setFavourites, handleOnClickRemove }) {
 
   return (
     <>
+    <span className={styles.favouriteMenu}>{favouriteMenu}</span>
       <div className={styles.favourite_block}>
         <h1>Favourite</h1>
         {favourites.map((favourite) => {
           return (
-            <div key={favourite} className={styles.joke_block}>
+            <div className={styles.joke_block}>
               <span className={styles.icon_mess}>{Icons}</span>
               <div className={styles.jokes_block}>
                 <div className={styles.updateNCategory}>
