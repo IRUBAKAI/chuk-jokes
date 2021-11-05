@@ -54,20 +54,21 @@ function Main() {
     if (checkedRandomInput.checked === true) {
       fetch("https://api.chucknorris.io/jokes/random")
         .then((res) => res.json())
-        .then((data) => setJokes(data));
-      setJokes([]);
+        .then((data) => setJokes(data))
+        .catch((err) => console.log(err));
       setStatus(1);
     }
     if (checkedCategoriesInput.checked === true) {
       fetch(`https://api.chucknorris.io/jokes/random?category=${categorie}`)
         .then((res) => res.json())
-        .then((data) => setJokes(data));
-      setJokes([]);
+        .then((data) => setJokes(data))
+        .catch((err) => console.log(err));
     }
     if (checkedSearchInput.checked === true) {
       fetch(`https://api.chucknorris.io/jokes/search?query=${search}`)
         .then((res) => res.json())
-        .then((data) => setSearchJokes(data.result));
+        .then((data) => setSearchJokes(data.result))
+        .catch((err) => console.log(err));
     }
   };
 

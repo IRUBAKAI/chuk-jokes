@@ -8,14 +8,14 @@ function SearchList({
   handleOnClickRemove,
   favourites,
 }) {
-  return (
+    return (
     <>
       {jokes.map((joke) => {
         const isFavourite = Boolean(
           favourites.find((favouriteFilm) => favouriteFilm.id === joke.id)
         );
         return (
-          <div key={joke} className={styles.joke_block}>
+          <div key={joke.id} className={styles.joke_block}>
             <span className={styles.icon_mess}>{Icons}</span>
             <div className={styles.jokes_block}>
               <div className={styles.updateNCategory}>
