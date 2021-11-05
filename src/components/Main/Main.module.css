@@ -9,11 +9,10 @@ html {
   color: #333333;
 }
 .main_sec {
-  width: 100%;
+  min-width: 100%;
   margin-bottom: 100px;
   position: relative;
 }
-
 .content {
   padding: 40px 140px 0;
   max-width: 600px;

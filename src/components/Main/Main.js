@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { JokeList } from "../JokeCard/index";
-import SearchList from "../SearchList";
+import { SearchList } from "../JokeCard/index";
 import styles from "./Main.module.css";
 import { Categories } from "../JokeCard/index";
 import { FavouriteList } from "../FavouriteCard/index";
@@ -8,6 +8,7 @@ import CategorieBtns from "../CategorieBtns";
 
 function Main() {
   const [jokes, setJokes] = useState([]);
+  const [favourites, setFavourites] = useState([]);
   const [searchJoke, setSearchJoke] = useState([]);
   const [checkedRandomInput, setCheckedRandomInput] = useState(false);
 
@@ -17,6 +18,27 @@ function Main() {
   const [search, setSearch] = useState("");
   const [checkedSearchInput, setCheckedSearchInput] = useState(false);
   const [status, setStatus] = useState(0);
+
+  function handleAddToLocalStorage(joke) {
+    const newFavouriteList = [...favourites, joke];
+    const saveToLocalStorage = (joke) => {
+      localStorage.setItem("joke-to-favourite", JSON.stringify(joke));
+    };
+
+    setFavourites(newFavouriteList);
+    saveToLocalStorage(newFavouriteList);
+  }
+
+  function handleOnClickRemove(joke) {
+    const newFavouriteList = favourites.filter((favourite) => {
+      return favourite.id !== joke.id;
+    });
+    const saveToLocalStorage = (joke) => {
+      localStorage.setItem("joke-to-favourite", JSON.stringify(joke));
+    };
+    setFavourites(newFavouriteList);
+    saveToLocalStorage(newFavouriteList);
+  }
 
   useEffect(() => {
     handleRandomJokeAdd();
@@ -33,13 +55,14 @@ function Main() {
       fetch("https://api.chucknorris.io/jokes/random")
         .then((res) => res.json())
         .then((data) => setJokes(data));
+      setJokes([]);
       setStatus(1);
     }
     if (checkedCategoriesInput.checked === true) {
       fetch(`https://api.chucknorris.io/jokes/random?category=${categorie}`)
         .then((res) => res.json())
         .then((data) => setJokes(data));
-        setJokes([])
+      setJokes([]);
     }
     if (checkedSearchInput.checked === true) {
       fetch(`https://api.chucknorris.io/jokes/search?query=${search}`)
@@ -47,6 +70,7 @@ function Main() {
         .then((data) => setSearchJoke([data]));
     }
   };
+
 
   return (
     <div className={styles.main_sec}>
@@ -120,20 +144,38 @@ function Main() {
           Get a joke
         </button>
 
-        {console.log(status)}
         <div className={status === 2 ? styles.active : styles.unActive}>
-          <Categories jokes={jokes} />
+          <Categories
+            jokes={[jokes]}
+            handleAddToLocalStorage={handleAddToLocalStorage}
+            handleOnClickRemove={handleOnClickRemove}
+            favourites={favourites}
+          />
         </div>
 
         <div className={status === 3 ? styles.active : styles.unActive}>
-          <SearchList jokes={searchJoke} />
-        </div> 
+          <SearchList
+            jokes={searchJoke}
+            handleAddToLocalStorage={handleAddToLocalStorage}
+            handleOnClickRemove={handleOnClickRemove}
+            favourites={favourites}
+          />
+        </div>
 
         <div className={status === 1 ? styles.active : styles.unActive}>
-          <JokeList jokes={[jokes]} />
+          <JokeList
+            jokes={[jokes]}
+            handleAddToLocalStorage={handleAddToLocalStorage}
+            handleOnClickRemove={handleOnClickRemove}
+            favourites={favourites}
+          />
         </div>
       </div>
-      <FavouriteList />
+      <FavouriteList
+        favourites={favourites}
+        setFavourites={setFavourites}
+        handleOnClickRemove={handleOnClickRemove}
+      />
     </div>
   );
 }

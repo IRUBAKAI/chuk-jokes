@@ -1,16 +1,23 @@
 import React from "react";
-import styles from "./JokeCard/JokeList.module.css";
-import Icons, { Heart, Link } from "./Icons";
+import styles from "./JokeList.module.css";
+import Icons, { fillHeart, Heart, Link } from "../Icons";
 
-function SearchList({ jokes }) {
+function SearchList({
+  jokes,
+  handleAddToLocalStorage,
+  handleOnClickRemove,
+  favourites,
+}) {
   const result = jokes.map((joke) => joke.result);
-
   return (
     <>
       {result.map((joke) => {
         return (
           <div>
             {joke.map((item) => {
+              const isFavourite = Boolean(
+                favourites.find((favouriteFilm) => favouriteFilm.id === item.id)
+              );
               return (
                 <div className={styles.joke_block}>
                   <span className={styles.icon_mess}>{Icons}</span>
@@ -23,7 +30,16 @@ function SearchList({ jokes }) {
                           <span>{Link}</span>
                         </a>
                       </span>
-                      <span className={styles.icon_heart}>{Heart}</span>
+                      <span
+                        className={styles.icon_heart}
+                        onClick={
+                          !isFavourite
+                            ? () => handleAddToLocalStorage(joke)
+                            : () => handleOnClickRemove(joke)
+                        }
+                      >
+                        {!isFavourite ? Heart : fillHeart}
+                      </span>
                     </div>
                     <p>{item.value}</p>
                     <div className={styles.updateNCategory}>
