@@ -1,16 +1,20 @@
+import Icons, { fillHeart, Heart, Link } from "../Main/Icons";
+import styles from "./JokeCard.module.css";
 import React from "react";
-import styles from "./JokeList.module.css";
-import Icons, { fillHeart, Heart, Link } from "../Icons";
 
-function SearchList({
+function JokeCard({
   jokes,
   handleAddToLocalStorage,
   handleOnClickRemove,
   favourites,
-}) { 
-    return (
+  loading,
+}) {
+  if(loading) {
+    return <h2>Loading...</h2>
+  }
+
+  return (
     <>
-    {jokes.length === 0 ? <p className={styles.errSearch}>Nothing was Found &#129488;</p> : null}
       {jokes.map((joke) => {
         const isFavourite = Boolean(
           favourites.find((favouriteFilm) => favouriteFilm.id === joke.id)
@@ -43,6 +47,7 @@ function SearchList({
                 <span className={styles.update_joke}>
                   Last updated: {joke.updated_at}
                 </span>
+
                 <span
                   className={
                     joke.categories === undefined
@@ -63,4 +68,4 @@ function SearchList({
   );
 }
 
-export default SearchList;
+export default JokeCard;

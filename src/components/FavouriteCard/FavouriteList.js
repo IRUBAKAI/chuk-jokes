@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import styles from "./FavouriteList.module.css";
-import Icons, { favouriteMenu, fillHeart, Link } from "../Icons";
+import Icons, { favouriteMenu, fillHeart, Link } from "../Main/Icons";
 
 function FavouriteList({ favourites, setFavourites, handleOnClickRemove }) {
-
 
   useEffect(() => {
     const movieFavourites = JSON.parse(
