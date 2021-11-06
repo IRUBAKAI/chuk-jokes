@@ -132,7 +132,7 @@ function Main() {
               status === 2 ? styles.categorie_btns_block : styles.unActive
             }
           >
-            <CategorieBtns categories={categories} setCategorie={setCategorie} />
+            {categories.map((categorie) => <CategorieBtns categorie={categorie} setCategorie={setCategorie}/>)}
           </div>
 
           <label>

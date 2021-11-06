@@ -74,6 +74,8 @@ html {
 }
 .categorie_btns_block {
   width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
 }
 .categorie_btns {
   width: 95px;
@@ -103,8 +105,4 @@ html {
   margin: 10px 10px;
   cursor: pointer;
   text-transform: uppercase;
-}
-.btn_categories {
-  display: flex;
-  flex-wrap: wrap;
 }

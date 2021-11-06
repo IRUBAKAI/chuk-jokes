@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import styles from "../Main/Main.module.css";
 
-function CategorieBtns({ categories, setCategorie }) {
+function CategorieBtns({ categorie, setCategorie }) {
   const [target, setStarget] = useState("");
 
   return (
     <>
       <div className={styles.btn_categories}>
-        {categories.map((categorie) => {
-          return (
             <div key={categorie}>
               <button
                 className={
@@ -25,8 +23,6 @@ function CategorieBtns({ categories, setCategorie }) {
                 {categorie}
               </button>
             </div>
-          );
-        })}
       </div>
     </>
   );
