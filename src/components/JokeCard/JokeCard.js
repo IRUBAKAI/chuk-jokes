@@ -1,12 +1,11 @@
 import Icons, { fillHeart, Heart, Link } from "../Main/Icons";
-import styles from "./JokeCard.module.css";
 import React from "react";
 
 function JokeCard({
   joke,
-  handleAddToLocalStorage,
-  handleOnClickRemove,
   isFavourite,
+  styles,
+  storageButtons,
 }) {
   return (
     <>
@@ -23,13 +22,9 @@ function JokeCard({
                 </span>
                 <span
                   className={styles.icon_heart}
-                  onClick={
-                    !isFavourite
-                      ? () => handleAddToLocalStorage(joke)
-                      : () => handleOnClickRemove(joke)
-                  }
+                  onClick={()=> storageButtons(joke)}
                 >
-                  {!isFavourite ? Heart : fillHeart}
+                  {isFavourite === false ? Heart : fillHeart}
                 </span>
               </div>
               <p>{joke.value}</p>
