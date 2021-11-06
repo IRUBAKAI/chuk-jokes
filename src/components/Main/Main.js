@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Main.module.css";
 import stylesJokeCard from "../JokeCard/JokeCard.module.css";
-import stylesFavourite from "../FavouriteCard/FavouriteList.module.css";
+import stylesFavourite from "../JokeCard/FavouriteList.module.css";
 import { CategorieBtn } from "../JokeCard/index";
 import { JokeCard } from "../JokeCard/index";
 import Pagination from "./Pagination";
@@ -16,7 +16,7 @@ function Main() {
   const [status, setStatus] = useState(0);
 
   const [categories, setCategories] = useState([]);
-  const [categorie, setCategorie] = useState("");
+  const [categorie, setCategorie] = useState('');
   const [search, setSearch] = useState("");
 
   const [checkedRandomInput, setCheckedRandomInput] = useState(false);
@@ -97,7 +97,6 @@ function Main() {
   const howManyPages = Math.ceil(jokes.length/jokesPerPage)
 
 
-
   return (
     <div className={styles.main_sec}>
       <div className={styles.content}>
@@ -144,7 +143,7 @@ function Main() {
             }
           >
             {categories.map((categorie) => (
-              <CategorieBtn categorie={categorie} setCategorie={setCategorie} />
+              <CategorieBtn categorie={categorie} setCategorie={setCategorie} categories={categories}/>
             ))}
           </div>
 
