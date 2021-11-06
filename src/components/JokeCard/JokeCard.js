@@ -3,23 +3,13 @@ import styles from "./JokeCard.module.css";
 import React from "react";
 
 function JokeCard({
-  jokes,
+  joke,
   handleAddToLocalStorage,
   handleOnClickRemove,
-  favourites,
-  loading,
+  isFavourite,
 }) {
-  if(loading) {
-    return <h2>Loading...</h2>
-  }
-
   return (
     <>
-      {jokes.map((joke) => {
-        const isFavourite = Boolean(
-          favourites.find((favouriteFilm) => favouriteFilm.id === joke.id)
-        );
-        return (
           <div key={joke.id} className={styles.joke_block}>
             <span className={styles.icon_mess}>{Icons}</span>
             <div className={styles.jokes_block}>
@@ -62,8 +52,6 @@ function JokeCard({
               </div>
             </div>
           </div>
-        );
-      })}
     </>
   );
 }

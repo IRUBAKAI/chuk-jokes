@@ -1,2 +1,2 @@
 export { default as JokeCard } from "./JokeCard"
-export { default as CategorieBtns } from "./CategorieBtns"
+export { default as CategorieBtn } from "./CategorieBtn"

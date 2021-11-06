@@ -3,17 +3,16 @@ import styles from "./FavouriteList.module.css";
 import Icons, { favouriteMenu, fillHeart, Link } from "../Main/Icons";
 
 function FavouriteList({ favourites, setFavourites, handleOnClickRemove }) {
-
   useEffect(() => {
-    const movieFavourites = JSON.parse(
+    const jokeFavourites = JSON.parse(
       localStorage.getItem("joke-to-favourite")
-    );
-    setFavourites(movieFavourites);
+    ) || [];
+    setFavourites(jokeFavourites);
   }, [setFavourites]);
 
   return (
     <>
-    <span className={styles.favouriteMenu}>{favouriteMenu}</span>
+      <span className={styles.favouriteMenu}>{favouriteMenu}</span>
       <div className={styles.favourite_block}>
         <h1>Favourite</h1>
         {favourites.map((favourite) => {
@@ -42,16 +41,16 @@ function FavouriteList({ favourites, setFavourites, handleOnClickRemove }) {
                     Last updated: {favourite.updated_at}
                   </span>
                   <span
-                  className={
-                    favourite.categories === undefined
-                      ? null
-                      : favourite.categories.length === 1
-                      ? styles.categories
-                      : null
-                  }
-                >
-                  {favourite.categories}
-                </span>
+                    className={
+                      favourite.categories === undefined
+                        ? null
+                        : favourite.categories.length === 1
+                        ? styles.categories
+                        : null
+                    }
+                  >
+                    {favourite.categories}
+                  </span>
                 </div>
               </div>
             </div>

@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Main.module.css";
 import { FavouriteList } from "../FavouriteCard/index";
-import { CategorieBtns } from "../JokeCard/index";
+import { CategorieBtn } from "../JokeCard/index";
 import { JokeCard } from "../JokeCard/index";
 import Pagination from "./Pagination";
 
 function Main() {
   /// Pagination states
-
-  const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);  
-  const [jokesPerPage] = useState(5);  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [jokesPerPage] = useState(5);
 
   const [jokes, setJokes] = useState([]);
   const [favourites, setFavourites] = useState([]);
   const [status, setStatus] = useState(0);
 
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState([]);
   const [categorie, setCategorie] = useState("");
   const [search, setSearch] = useState("");
 
@@ -24,6 +22,8 @@ function Main() {
   const [checkedCategoriesInput, setCheckedCategoriesInput] = useState(false);
   const [checkedSearchInput, setCheckedSearchInput] = useState(false);
 
+/// LOCALSTORAGE Buttons
+  
   function handleAddToLocalStorage(joke) {
     const newFavouriteList = [...favourites, joke];
     const saveToLocalStorage = (joke) => {
@@ -45,9 +45,14 @@ function Main() {
     saveToLocalStorage(newFavouriteList);
   }
 
+// useEffects
+
   useEffect(() => {
     handleRandomJokeAdd();
   }, []);
+
+
+  /// FETCH REQUEST
 
   function fetchCategories() {
     fetch("https://api.chucknorris.io/jokes/categories")
@@ -71,12 +76,10 @@ function Main() {
       setStatus(3);
     }
     if (checkedSearchInput.checked === true) {
-      setLoading(true)
       fetch(`https://api.chucknorris.io/jokes/search?query=${search}`)
         .then((res) => res.json())
         .then((data) => setJokes(data.result))
         .catch((err) => console.log(err));
-      setLoading(false)
     }
   };
 
@@ -84,12 +87,11 @@ function Main() {
 
   const indexOfLastJoke = currentPage * jokesPerPage;
   const indexOfFirstJoke = indexOfLastJoke - jokesPerPage;
-  const currentJokes = jokes.slice(indexOfFirstJoke, indexOfLastJoke)
-
+  const currentJokes = jokes.slice(indexOfFirstJoke, indexOfLastJoke);
 
   /// Change number
 
-  const paginate = (jokeNumber) => setCurrentPage(jokeNumber)
+  const paginate = (jokeNumber) => setCurrentPage(jokeNumber);
 
   return (
     <div className={styles.main_sec}>
@@ -128,11 +130,17 @@ function Main() {
           </label>
 
           <div
-            className={status === 3 ? styles.categorie_btns_block :
-              status === 2 ? styles.categorie_btns_block : styles.unActive
+            className={
+              status === 3
+                ? styles.categorie_btns_block
+                : status === 2
+                ? styles.categorie_btns_block
+                : styles.unActive
             }
           >
-            {categories.map((categorie) => <CategorieBtns categorie={categorie} setCategorie={setCategorie}/>)}
+            {categories.map((categorie) => (
+              <CategorieBtn categorie={categorie} setCategorie={setCategorie} />
+            ))}
           </div>
 
           <label>
@@ -159,32 +167,41 @@ function Main() {
             type="button"
             className={styles.getJoke_btn}
             onClick={() => handleRandomJokeAdd()}
-            value="Get a joke"  
+            value="Get a joke"
           />
         </form>
 
-        <JokeCard
-          jokes={currentJokes}
-          handleAddToLocalStorage={handleAddToLocalStorage}
-          handleOnClickRemove={handleOnClickRemove}
-          favourites={favourites}
-          loading={loading}
-        />
+        <div>
+          {currentJokes.map((joke) => {
+            const isFavourite = Boolean(
+              favourites.find((favouriteJoke) => favouriteJoke.id === joke.id)
+            );
+            return (
+              <JokeCard
+                joke={joke}
+                isFavourite={isFavourite}
+                handleAddToLocalStorage={handleAddToLocalStorage}
+                handleOnClickRemove={handleOnClickRemove}
+                favourites={favourites}
+              />
+            );
+          })}
+        </div>
 
-      {currentJokes.length < 2 ? null : 
-        <Pagination jokesPerPage={jokesPerPage} totalJokes={jokes.length} paginate={paginate}/>
-      }
-      
+        {currentJokes.length < 2 ? null : (
+          <Pagination
+            jokesPerPage={jokesPerPage}
+            totalJokes={jokes.length}
+            paginate={paginate}
+          />
+        )}
       </div>
       <FavouriteList
         favourites={favourites}
         setFavourites={setFavourites}
         handleOnClickRemove={handleOnClickRemove}
       />
-
-
     </div>
-    
   );
 }
 
