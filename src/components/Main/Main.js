@@ -1,27 +1,61 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import styles from "./Main.module.css";
 import stylesJokeCard from "../JokeCard/JokeCard.module.css";
 import stylesFavourite from "../JokeCard/FavouriteList.module.css";
 import { CategorieBtn } from "../JokeCard/index";
 import { JokeCard } from "../JokeCard/index";
 import Pagination from "./Pagination";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getCategorieJoke,
+  getCategories,
+  getRandomJoke,
+  getSearchJokes,
+} from "../../ActionCreator";
 
 function Main() {
   /// Pagination states
-  const [currentPage, setCurrentPage] = useState(1);
-  const [jokesPerPage] = useState(5);
+  const jokesPerPage = 5;
 
-  const [jokes, setJokes] = useState([]);
-  const [favourites, setFavourites] = useState([]);
-  const [status, setStatus] = useState(0);
+  //////////////////Redux SELECTOR
 
-  const [categories, setCategories] = useState([]);
-  const [categorie, setCategorie] = useState('');
-  const [search, setSearch] = useState("");
+  const joke = useSelector((state) => state.reducer.joke);
+  const categories = useSelector((state) => state.reducer.categories);
+  const categorie = useSelector((state) => state.reducer.categorie);
+  const status = useSelector((state) => state.reducer.status);
+  const search = useSelector((state) => state.reducer.search);
+  const favourites = useSelector((state) => state.reducer.favourites);
+  const checkedRandomInput = useSelector(
+    (state) => state.checkedInput.checkedRandomInput
+  );
+  const checkedCategoriesInput = useSelector(
+    (state) => state.checkedInput.checkedCategoriesInput
+  );
+  const checkedSearchInput = useSelector(
+    (state) => state.checkedInput.checkedSearchInput
+  );
+  const currentPage = useSelector((state) => state.reducer.currentPage);
+  const dispatch = useDispatch();
 
-  const [checkedRandomInput, setCheckedRandomInput] = useState(false);
-  const [checkedCategoriesInput, setCheckedCategoriesInput] = useState(false);
-  const [checkedSearchInput, setCheckedSearchInput] = useState(false);
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
+
+  function handleRandomJokeAdd() {
+    if (checkedRandomInput.checked === true) {
+      dispatch(getRandomJoke());
+      dispatch({ type: "setStatus", payload: 1 });
+    }
+    if (checkedCategoriesInput.checked === true) {
+      dispatch(getCategorieJoke(categorie));
+      dispatch({ type: "setStatus", payload: 3 });
+    }
+    if (checkedSearchInput.checked === true) {
+      dispatch(getSearchJokes(search));
+    }
+  }
+
+  console.log(status);
 
   /// LOCALSTORAGE Buttons
 
@@ -31,7 +65,7 @@ function Main() {
       localStorage.setItem("joke-to-favourite", JSON.stringify(joke));
     };
 
-    setFavourites(newFavouriteList);
+    dispatch({ type: "setFavourites", payload: newFavouriteList });
     saveToLocalStorage(newFavouriteList);
   }
 
@@ -42,60 +76,24 @@ function Main() {
     const saveToLocalStorage = (joke) => {
       localStorage.setItem("joke-to-favourite", JSON.stringify(joke));
     };
-    setFavourites(newFavouriteList);
+    dispatch({ type: "setFavourites", payload: newFavouriteList });
     saveToLocalStorage(newFavouriteList);
   }
-
-  // useEffects
-
-  useEffect(() => {
-    handleRandomJokeAdd();
-  }, []);
 
   useEffect(() => {
     const jokeFavourites =
       JSON.parse(localStorage.getItem("joke-to-favourite")) || [];
-    setFavourites(jokeFavourites);
-  }, [setFavourites]);
+    dispatch({ type: "setFavourites", payload: jokeFavourites });
+  }, [dispatch]);
 
   /// FETCH REQUEST
-
-  function fetchCategories() {
-    fetch("https://api.chucknorris.io/jokes/categories")
-      .then((res) => res.json())
-      .then((data) => setCategories(data));
-  }
-
-  const handleRandomJokeAdd = () => {
-    if (checkedRandomInput.checked === true) {
-      fetch("https://api.chucknorris.io/jokes/random")
-        .then((res) => res.json())
-        .then((data) => setJokes([data]))
-        .catch((err) => console.log(err));
-      setStatus(1);
-    }
-    if (checkedCategoriesInput.checked === true) {
-      fetch(`https://api.chucknorris.io/jokes/random?category=${categorie}`)
-        .then((res) => res.json())
-        .then((data) => setJokes([data]))
-        .catch((err) => console.log(err));
-      setStatus(3);
-    }
-    if (checkedSearchInput.checked === true) {
-      fetch(`https://api.chucknorris.io/jokes/search?query=${search}`)
-        .then((res) => res.json())
-        .then((data) => setJokes(data.result))
-        .catch((err) => console.log(err));
-    }
-  };
 
   /// Get current Jokes
 
   const indexOfLastJoke = currentPage * jokesPerPage;
   const indexOfFirstJoke = indexOfLastJoke - jokesPerPage;
-  const currentJokes = jokes.slice(indexOfFirstJoke, indexOfLastJoke);
-  const howManyPages = Math.ceil(jokes.length/jokesPerPage)
-
+  const currentJokes = joke.slice(indexOfFirstJoke, indexOfLastJoke);
+  const howManyPages = Math.ceil(joke.length / jokesPerPage);
 
   return (
     <div className={styles.main_sec}>
@@ -111,9 +109,10 @@ function Main() {
               type="radio"
               name="name1"
               onChange={(event) =>
-                setCheckedRandomInput(event.target) &
-                setStatus(0) &
-                setSearch("")
+                dispatch({
+                  type: "setCheckedRandomInput",
+                  payload: event.target,
+                }) & dispatch({ type: "setStatus", payload: 0 })
               }
             />
             Random
@@ -124,10 +123,10 @@ function Main() {
               type="radio"
               name="name1"
               onChange={(event) =>
-                fetchCategories() &
-                setCheckedCategoriesInput(event.target) &
-                setStatus(2) &
-                setSearch("")
+                dispatch({
+                  type: "setCheckedCategorieInput",
+                  payload: event.target,
+                }) & dispatch({ type: "setStatus", payload: 2 })
               }
             />
             From categories
@@ -143,7 +142,7 @@ function Main() {
             }
           >
             {categories.map((categorie) => (
-              <CategorieBtn categorie={categorie} setCategorie={setCategorie} categories={categories}/>
+              <CategorieBtn categorie={categorie} />
             ))}
           </div>
 
@@ -152,7 +151,10 @@ function Main() {
               type="radio"
               name="name1"
               onChange={(event) =>
-                setCheckedSearchInput(event.target) & setStatus(4)
+                dispatch({
+                  type: "setCheckedSearchInput",
+                  payload: event.target,
+                }) & dispatch({ type: "setStatus", payload: 4 })
               }
             />
             Search
@@ -163,7 +165,9 @@ function Main() {
               type="text"
               className={styles.searchInput}
               placeholder="Free text search..."
-              onChange={(event) => setSearch(event.target.value)}
+              onChange={(event) =>
+                dispatch({ type: "setSearch", payload: event.target.value })
+              }
             />
           ) : null}
 
@@ -197,12 +201,7 @@ function Main() {
           })}
         </div>
 
-        {currentJokes.length < 2 ? null : (
-          <Pagination
-            pages={howManyPages}
-            setCurrentPage={setCurrentPage}
-          />
-        )}
+        {currentJokes.length < 2 ? null : <Pagination pages={howManyPages} />}
       </div>
 
       <div className={stylesFavourite.favourite_block}>
