@@ -2,15 +2,17 @@ import React, { useState, useEffect } from "react";
 import styles from "./Main.module.css";
 import stylesJokeCard from "../JokeCard/JokeCard.module.css";
 import stylesFavourite from "../JokeCard/FavouriteList.module.css";
-import { CategorieBtn } from "../JokeCard/index";
-import { JokeCard } from "../JokeCard/index";
-import Pagination from "./Pagination";
+import { CategorieBtn } from "../JokeCard/";
+import { JokeCard } from "../JokeCard/";
+import { Pagination } from "../Pagination";
 import { favouriteMenu } from "./Icons";
 
 function Main() {
   /// Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const [jokesPerPage] = useState(1);
+
+  ///
 
   const [jokes, setJokes] = useState([]);
   const [favourites, setFavourites] = useState([]);
@@ -24,6 +26,7 @@ function Main() {
   const [checkedRandomInput, setCheckedRandomInput] = useState(false);
   const [checkedCategoriesInput, setCheckedCategoriesInput] = useState(false);
   const [checkedSearchInput, setCheckedSearchInput] = useState(false);
+
 
   /// LOCALSTORAGE Buttons
 
