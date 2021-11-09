@@ -5,18 +5,20 @@ import stylesFavourite from "../JokeCard/FavouriteList.module.css";
 import { CategorieBtn } from "../JokeCard/index";
 import { JokeCard } from "../JokeCard/index";
 import Pagination from "./Pagination";
+import { favouriteMenu } from "./Icons";
 
 function Main() {
   /// Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const [jokesPerPage] = useState(5);
+  const [jokesPerPage] = useState(1);
 
   const [jokes, setJokes] = useState([]);
   const [favourites, setFavourites] = useState([]);
   const [status, setStatus] = useState(0);
+  const [statusBurgerMenu, setStatusBurgerMenu] = useState(0);
 
   const [categories, setCategories] = useState([]);
-  const [categorie, setCategorie] = useState('');
+  const [categorie, setCategorie] = useState("");
   const [search, setSearch] = useState("");
 
   const [checkedRandomInput, setCheckedRandomInput] = useState(false);
@@ -89,12 +91,20 @@ function Main() {
     }
   };
 
+  function burgerMenuChangeStatus() {
+    if (statusBurgerMenu === 1) {
+      setStatusBurgerMenu(0);
+    } else setStatusBurgerMenu(1);
+  }
+
+
   /// Get current Jokes
 
   const indexOfLastJoke = currentPage * jokesPerPage;
   const indexOfFirstJoke = indexOfLastJoke - jokesPerPage;
   const currentJokes = jokes.slice(indexOfFirstJoke, indexOfLastJoke);
-  const howManyPages = Math.ceil(jokes.length/jokesPerPage)
+  const howManyPages = Math.ceil(jokes.length / jokesPerPage);
+
 
 
   return (
@@ -143,7 +153,11 @@ function Main() {
             }
           >
             {categories.map((categorie) => (
-              <CategorieBtn categorie={categorie} setCategorie={setCategorie} categories={categories}/>
+              <CategorieBtn
+                categorie={categorie}
+                setCategorie={setCategorie}
+                categories={categories}
+              />
             ))}
           </div>
 
@@ -159,21 +173,29 @@ function Main() {
           </label>
 
           {status === 4 ? (
+            <>
             <input
+              required
               type="text"
               className={styles.searchInput}
               placeholder="Free text search..."
               onChange={(event) => setSearch(event.target.value)}
             />
+            <h1 className={jokes.length === 0 ? styles.active : styles.unActive}>Nothing is here &#129488;</h1>
+            </>
           ) : null}
 
+          
+
           <input
+            required
             type="button"
             className={styles.getJoke_btn}
             onClick={() => handleRandomJokeAdd()}
             value="Get a joke"
           />
         </form>
+
 
         <div>
           {currentJokes.map((joke) => {
@@ -198,15 +220,43 @@ function Main() {
         </div>
 
         {currentJokes.length < 2 ? null : (
-          <Pagination
-            pages={howManyPages}
-            setCurrentPage={setCurrentPage}
-          />
+          <Pagination pages={howManyPages} setCurrentPage={setCurrentPage} />
         )}
       </div>
 
       <div className={stylesFavourite.favourite_block}>
         <h1>Favourite</h1>
+        {favourites.map((favourite) => {
+          function storageButtonRemove() {
+            handleOnClickRemove(favourite);
+          }
+          return (
+            <JokeCard
+              joke={favourite}
+              styles={stylesFavourite}
+              storageButtons={storageButtonRemove}
+            />
+          );
+        })}
+      </div>
+
+      <span
+        className={styles.icon_favourite_menu}
+        onClick={() => burgerMenuChangeStatus()}
+      >
+        {favouriteMenu}
+        <h1>Favourite</h1>
+      </span>
+      <div
+        className={statusBurgerMenu === 1 ? styles.main_sec_bg_active : null}
+      ></div>
+      <div
+        className={
+          statusBurgerMenu === 1
+            ? stylesFavourite.media_favourite_block_active
+            : stylesFavourite.media_favourite_block
+        }
+      >
         {favourites.map((favourite) => {
           function storageButtonRemove() {
             handleOnClickRemove(favourite);
