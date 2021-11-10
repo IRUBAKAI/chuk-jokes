@@ -10,7 +10,7 @@ import { favouriteMenu } from "./Icons";
 function Main() {
   /// Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const [jokesPerPage] = useState(1);
+  const [jokesPerPage] = useState(5);
 
   ///
 
@@ -26,7 +26,6 @@ function Main() {
   const [checkedRandomInput, setCheckedRandomInput] = useState(false);
   const [checkedCategoriesInput, setCheckedCategoriesInput] = useState(false);
   const [checkedSearchInput, setCheckedSearchInput] = useState(false);
-
 
   /// LOCALSTORAGE Buttons
 
@@ -77,6 +76,7 @@ function Main() {
         .then((res) => res.json())
         .then((data) => setJokes([data]))
         .catch((err) => console.log(err));
+      setCurrentPage(1);
       setStatus(1);
     }
     if (checkedCategoriesInput.checked === true) {
@@ -84,7 +84,9 @@ function Main() {
         .then((res) => res.json())
         .then((data) => setJokes([data]))
         .catch((err) => console.log(err));
+      console.log("sadasd");
       setStatus(3);
+      setCurrentPage(1);
     }
     if (checkedSearchInput.checked === true) {
       fetch(`https://api.chucknorris.io/jokes/search?query=${search}`)
@@ -100,15 +102,12 @@ function Main() {
     } else setStatusBurgerMenu(1);
   }
 
-
   /// Get current Jokes
 
   const indexOfLastJoke = currentPage * jokesPerPage;
   const indexOfFirstJoke = indexOfLastJoke - jokesPerPage;
   const currentJokes = jokes.slice(indexOfFirstJoke, indexOfLastJoke);
   const howManyPages = Math.ceil(jokes.length / jokesPerPage);
-
-
 
   return (
     <div className={styles.main_sec}>
@@ -123,11 +122,11 @@ function Main() {
             <input
               type="radio"
               name="name1"
-              onChange={(event) =>
-                setCheckedRandomInput(event.target) &
-                setStatus(0) &
-                setSearch("")
-              }
+              onChange={(event) => {
+                setCheckedRandomInput(event.target);
+                setStatus(0);
+                setSearch("");
+              }}
             />
             Random
           </label>
@@ -136,12 +135,12 @@ function Main() {
             <input
               type="radio"
               name="name1"
-              onChange={(event) =>
-                fetchCategories() &
-                setCheckedCategoriesInput(event.target) &
-                setStatus(2) &
-                setSearch("")
-              }
+              onChange={(event) => {
+                fetchCategories();
+                setCheckedCategoriesInput(event.target);
+                setStatus(2);
+                setSearch("");
+              }}
             />
             From categories
           </label>
@@ -168,37 +167,37 @@ function Main() {
             <input
               type="radio"
               name="name1"
-              onChange={(event) =>
-                setCheckedSearchInput(event.target) & setStatus(4)
-              }
+              onChange={(event) => {
+                setCheckedSearchInput(event.target);
+                setStatus(4);
+              }}
             />
             Search
           </label>
 
           {status === 4 ? (
             <>
-            <input
-              required
-              type="text"
-              className={styles.searchInput}
-              placeholder="Free text search..."
-              onChange={(event) => setSearch(event.target.value)}
-            />
-            <h1 className={jokes.length === 0 ? styles.active : styles.unActive}>Nothing is here &#129488;</h1>
+              <input
+                type="text"
+                className={styles.searchInput}
+                placeholder="Free text search..."
+                onChange={(event) => setSearch(event.target.value)}
+              />
+              <h1
+                className={jokes.length === 0 ? styles.active : styles.unActive}
+              >
+                Nothing is here &#129488;
+              </h1>
             </>
           ) : null}
 
-          
-
           <input
-            required
             type="button"
             className={styles.getJoke_btn}
             onClick={() => handleRandomJokeAdd()}
             value="Get a joke"
           />
         </form>
-
 
         <div>
           {currentJokes.map((joke) => {

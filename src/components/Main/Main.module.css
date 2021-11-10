@@ -75,32 +75,30 @@ html {
   display: flex;
   flex-wrap: wrap;
 }
-.categorie_btns {
-  width: 95px;
-  height: 28px;
-  border: 2px solid #f8f8f8;
-  border-radius: 6px;
+.btn_categories {
+  margin: 10px;
+}
+.btn_categories span {
+  width: 77px;
+  height: 16px;
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 2px;
-  color: #ababab;
-  margin: 10px 10px;
-  cursor: pointer;
   text-transform: uppercase;
+  border: 1px solid #ABABAB;
+  border-radius: 6px;
+  padding: 6px 15px;
+  color: #ABABAB;
+  cursor: pointer;
 }
-.categorie_btns_active {
-  width: 95px;
+.btn_categories input[type="radio"]:checked ~ span.active_categorie_btn {
+  width: 107px;
   height: 28px;
-  background: #f8f8f8;
+  background: #F8F8F8;
   border: 2px solid #333333;
   border-radius: 6px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: 2px;
   color: #333333;
-  margin: 10px 10px;
   cursor: pointer;
   text-transform: uppercase;
 }
@@ -108,7 +106,7 @@ html {
   display: none;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1300px) {
   .icon_favourite_menu {
     display: block;
     position: fixed;

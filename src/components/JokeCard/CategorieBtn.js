@@ -1,21 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "../Main/Main.module.css";
 
 function CategorieBtns({ categorie, setCategorie }) {
-
-  const [target, setTarget] = useState('')
-
   return (
     <>
       <div className={styles.btn_categories}>
-        <div key={categorie}>
+        <label key={categorie}>
           <input
-            className={categorie === target ? styles.categorie_btns_active : styles.categorie_btns}
-            type="button"
+            className={styles.unActive}
+            type="radio"
+            name="name2"
             value={categorie}
-            onClick={(event) => setCategorie(categorie) & setTarget(event.target.value)}
+            onClick={() => setCategorie(categorie)}
           />
-        </div>
+          <span className={styles.active_categorie_btn}>{categorie}</span>
+        </label>
       </div>
     </>
   );
