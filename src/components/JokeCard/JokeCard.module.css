@@ -4,13 +4,19 @@
   background: #f8f8f8;
   border-radius: 20px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   line-height: 26px;
   position: relative;
   margin-bottom: 20px;
   padding: 20px 50px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.jokes_block {
+  max-width: 500px;
+}
+.jokes_content {
+  display: flex;
 }
 .icon_mess {
   padding: 0 25px 70px 0;
@@ -20,7 +26,7 @@
 }
 .jokes_block p {
   font-size: 18px;
-  width: 540px;
+  max-width: 540px;
 }
 .id_joke {
   font-size: 10px;
@@ -62,4 +68,33 @@
   font-size: 30px;
   font-weight: bold;
   text-align: center;
+}
+
+@media (max-width: 680px) {
+  .updateNCategory {
+    display: flex;
+    flex-direction: column;
+  }
+  .jokes_block p {
+    max-width: 400px;
+  }
+  .jokes_block {
+    margin-left: 20px;
+  }
+  .icon_heart {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+  }
+  .icon_mess {
+    position: absolute;
+    top: 50px;
+    left: 20px;
+  }
+}
+
+@media (max-width: 610px) {
+  .jokes_block p {
+    max-width: 300px;
+  }
 }

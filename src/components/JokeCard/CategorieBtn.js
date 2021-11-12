@@ -1,25 +1,25 @@
 import React from "react";
 import styles from "../Main/Main.module.css";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux"
 
-function CategorieBtns({ categorie }) {
-
+function CategorieBtn({categorie}) {
   const dispatch = useDispatch()
-
   return (
     <>
       <div className={styles.btn_categories}>
-        <div key={categorie}>
+        <label key={categorie}>
           <input
-            className={categorie ? styles.categorie_btns_active : styles.categorie_btns}
-            type="button"
+            className={styles.unActive}
+            type="radio"
+            name="name2"
             value={categorie}
-            onClick={(event) => dispatch({ type: 'getCategorie', payload: categorie})}
+            onClick={() => dispatch({type: 'getCategorie', payload: categorie})}
           />
-        </div>
+          <span className={styles.active_categorie_btn}>{categorie}</span>
+        </label>
       </div>
     </>
   );
 }
 
-export default CategorieBtns;
+export default CategorieBtn;

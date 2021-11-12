@@ -4,7 +4,7 @@ import stylesJokeCard from "../JokeCard/JokeCard.module.css";
 import stylesFavourite from "../JokeCard/FavouriteList.module.css";
 import { CategorieBtn } from "../JokeCard/index";
 import { JokeCard } from "../JokeCard/index";
-import Pagination from "./Pagination";
+import { Pagination } from "../Pagination";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getCategorieJoke,
@@ -54,8 +54,6 @@ function Main() {
       dispatch(getSearchJokes(search));
     }
   }
-
-  console.log(status);
 
   /// LOCALSTORAGE Buttons
 
@@ -219,7 +217,8 @@ function Main() {
           );
         })}
       </div>
-    </div>
+      </div>
+
   );
 }
 
