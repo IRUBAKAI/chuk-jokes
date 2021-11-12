@@ -4,7 +4,7 @@ import React from "react";
 function JokeCard({ joke, isFavourite, styles, storageButtons }) {
   return (
     <>
-      <div key={joke.id} className={styles.joke_block}>
+      <div className={styles.joke_block}>
         <div className={styles.jokes_content}>
           <span className={styles.icon_mess}>{Icons}</span>
           <div className={styles.jokes_block}>

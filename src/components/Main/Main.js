@@ -12,16 +12,18 @@ function Main() {
   const [currentPage, setCurrentPage] = useState(1);
   const [jokesPerPage] = useState(5);
 
-  ///
+  //// Jokes States
 
   const [jokes, setJokes] = useState([]);
   const [favourites, setFavourites] = useState([]);
   const [status, setStatus] = useState(0);
   const [statusBurgerMenu, setStatusBurgerMenu] = useState(0);
 
+
   const [categories, setCategories] = useState([]);
   const [categorie, setCategorie] = useState("");
   const [search, setSearch] = useState("");
+  const [errorSearch, setErrorSearch] = useState('')
 
   const [checkedRandomInput, setCheckedRandomInput] = useState(false);
   const [checkedCategoriesInput, setCheckedCategoriesInput] = useState(false);
@@ -84,15 +86,17 @@ function Main() {
         .then((res) => res.json())
         .then((data) => setJokes([data]))
         .catch((err) => console.log(err));
-      console.log("sadasd");
       setStatus(3);
       setCurrentPage(1);
     }
     if (checkedSearchInput.checked === true) {
+      if(search.length >= 3) {
       fetch(`https://api.chucknorris.io/jokes/search?query=${search}`)
         .then((res) => res.json())
         .then((data) => setJokes(data.result))
         .catch((err) => console.log(err));
+        setErrorSearch(null)
+      }else setErrorSearch('You need 3 letters for search')
     }
   };
 
@@ -102,12 +106,14 @@ function Main() {
     } else setStatusBurgerMenu(1);
   }
 
+
   /// Get current Jokes
 
   const indexOfLastJoke = currentPage * jokesPerPage;
   const indexOfFirstJoke = indexOfLastJoke - jokesPerPage;
   const currentJokes = jokes.slice(indexOfFirstJoke, indexOfLastJoke);
   const howManyPages = Math.ceil(jokes.length / jokesPerPage);
+
 
   return (
     <div className={styles.main_sec}>
@@ -117,6 +123,9 @@ function Main() {
           <h1>Hey!</h1>
           <h2>Let’s try to find a joke for you:</h2>
         </div>
+
+            {/* FORM */}
+
         <form className={styles.checkbox_block}>
           <label>
             <input
@@ -183,21 +192,26 @@ function Main() {
                 placeholder="Free text search..."
                 onChange={(event) => setSearch(event.target.value)}
               />
+              <p className={styles.errorSearch}>{errorSearch}</p>
               <h1
-                className={jokes.length === 0 ? styles.active : styles.unActive}
+                className={currentJokes.length === 0 ? styles.active : styles.unActive}
               >
                 Nothing is here &#129488;
               </h1>
             </>
           ) : null}
-
+          
           <input
             type="button"
             className={styles.getJoke_btn}
-            onClick={() => handleRandomJokeAdd()}
+            onClick={() => {
+              handleRandomJokeAdd();
+            }}
             value="Get a joke"
           />
         </form>
+            
+        {/* RENDER JOKES */}
 
         <div>
           {currentJokes.map((joke) => {
@@ -225,6 +239,9 @@ function Main() {
           <Pagination pages={howManyPages} setCurrentPage={setCurrentPage} />
         )}
       </div>
+
+
+      {/* FAVOUrITES JOkeCARD */}
 
       <div className={stylesFavourite.favourite_block}>
         <h1>Favourite</h1>
