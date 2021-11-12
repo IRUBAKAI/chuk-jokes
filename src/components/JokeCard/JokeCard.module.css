@@ -19,14 +19,19 @@
   display: flex;
 }
 .icon_mess {
-  padding: 0 25px 70px 0;
+  position: absolute;
+  top: 70px;
+  left: 40px;
 }
 .icon_heart {
   cursor: pointer;
+  position: absolute;
+  top: 40px;
+  right: 40px;
 }
 .jokes_block p {
   font-size: 18px;
-  max-width: 540px;
+  width: 540px;
 }
 .id_joke {
   font-size: 10px;
@@ -70,7 +75,7 @@
   text-align: center;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 750px) {
   .updateNCategory {
     display: flex;
     flex-direction: column;
@@ -79,7 +84,7 @@
     max-width: 400px;
   }
   .jokes_block {
-    margin-left: 20px;
+    margin-left: 40px;
   }
   .icon_heart {
     position: absolute;
@@ -93,7 +98,7 @@
   }
 }
 
-@media (max-width: 610px) {
+@media (max-width: 650px) {
   .jokes_block p {
     max-width: 300px;
   }

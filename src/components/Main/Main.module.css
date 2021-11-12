@@ -86,16 +86,16 @@ html {
   line-height: 16px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  border: 1px solid #ABABAB;
+  border: 1px solid #ababab;
   border-radius: 6px;
   padding: 6px 15px;
-  color: #ABABAB;
+  color: #ababab;
   cursor: pointer;
 }
 .btn_categories input[type="radio"]:checked ~ span.active_categorie_btn {
   width: 107px;
   height: 28px;
-  background: #F8F8F8;
+  background: #f8f8f8;
   border: 2px solid #333333;
   border-radius: 6px;
   color: #333333;

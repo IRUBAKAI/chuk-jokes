@@ -19,11 +19,10 @@ function Main() {
   const [status, setStatus] = useState(0);
   const [statusBurgerMenu, setStatusBurgerMenu] = useState(0);
 
-
   const [categories, setCategories] = useState([]);
   const [categorie, setCategorie] = useState("");
   const [search, setSearch] = useState("");
-  const [errorSearch, setErrorSearch] = useState('')
+  const [errorSearch, setErrorSearch] = useState("");
 
   const [checkedRandomInput, setCheckedRandomInput] = useState(false);
   const [checkedCategoriesInput, setCheckedCategoriesInput] = useState(false);
@@ -72,7 +71,7 @@ function Main() {
       .then((data) => setCategories(data));
   }
 
-  const handleRandomJokeAdd = () => {
+  const handleRandomJokeAdd = (event) => {
     if (checkedRandomInput.checked === true) {
       fetch("https://api.chucknorris.io/jokes/random")
         .then((res) => res.json())
@@ -90,13 +89,13 @@ function Main() {
       setCurrentPage(1);
     }
     if (checkedSearchInput.checked === true) {
-      if(search.length >= 3) {
-      fetch(`https://api.chucknorris.io/jokes/search?query=${search}`)
-        .then((res) => res.json())
-        .then((data) => setJokes(data.result))
-        .catch((err) => console.log(err));
-        setErrorSearch(null)
-      }else setErrorSearch('You need 3 letters for search')
+      if (search.length >= 3) {
+        fetch(`https://api.chucknorris.io/jokes/search?query=${search}`)
+          .then((res) => res.json())
+          .then((data) => setJokes(data.result))
+          .catch((err) => console.log(err));
+        setErrorSearch(null);
+      } else setErrorSearch("You need 3 letters for search");
     }
   };
 
@@ -106,14 +105,12 @@ function Main() {
     } else setStatusBurgerMenu(1);
   }
 
-
   /// Get current Jokes
 
   const indexOfLastJoke = currentPage * jokesPerPage;
   const indexOfFirstJoke = indexOfLastJoke - jokesPerPage;
   const currentJokes = jokes.slice(indexOfFirstJoke, indexOfLastJoke);
   const howManyPages = Math.ceil(jokes.length / jokesPerPage);
-
 
   return (
     <div className={styles.main_sec}>
@@ -124,9 +121,11 @@ function Main() {
           <h2>Let’s try to find a joke for you:</h2>
         </div>
 
-            {/* FORM */}
+        {/* FORM */}
 
-        <form className={styles.checkbox_block}>
+        <form
+          className={styles.checkbox_block}
+        >
           <label>
             <input
               type="radio"
@@ -190,27 +189,31 @@ function Main() {
                 type="text"
                 className={styles.searchInput}
                 placeholder="Free text search..."
+                onKeyDown={(e) => e.key === "Enter" && handleRandomJokeAdd()}
                 onChange={(event) => setSearch(event.target.value)}
               />
               <p className={styles.errorSearch}>{errorSearch}</p>
               <h1
-                className={currentJokes.length === 0 ? styles.active : styles.unActive}
+                className={
+                  currentJokes.length === 0 ? styles.active : styles.unActive
+                }
               >
                 Nothing is here &#129488;
               </h1>
             </>
           ) : null}
-          
+
           <input
-            type="button"
+            type="submit"
             className={styles.getJoke_btn}
-            onClick={() => {
-              handleRandomJokeAdd();
+            onClick={(event) => {
+              handleRandomJokeAdd(event);
+              event.preventDefault()
             }}
             value="Get a joke"
           />
         </form>
-            
+
         {/* RENDER JOKES */}
 
         <div>
@@ -235,13 +238,14 @@ function Main() {
           })}
         </div>
 
+        {/* ///PAGINATION */}
+
         {currentJokes.length < 2 ? null : (
           <Pagination pages={howManyPages} setCurrentPage={setCurrentPage} />
         )}
       </div>
 
-
-      {/* FAVOUrITES JOkeCARD */}
+      {/* FAVOUrITES JOkECARD */}
 
       <div className={stylesFavourite.favourite_block}>
         <h1>Favourite</h1>
@@ -258,6 +262,8 @@ function Main() {
           );
         })}
       </div>
+
+      {/* ///BURGER MENU FAVOURITES */}
 
       <span
         className={styles.icon_favourite_menu}

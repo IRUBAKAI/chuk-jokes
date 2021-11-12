@@ -8,7 +8,7 @@ function JokeCard({ joke, isFavourite, styles, storageButtons }) {
         <div className={styles.jokes_content}>
           <span className={styles.icon_mess}>{Icons}</span>
           <div className={styles.jokes_block}>
-            <div className={styles.updateNCategory}>
+            <div>
               <span className={styles.id_joke}>
                 ID:{" "}
                 <a href={joke.url}>
