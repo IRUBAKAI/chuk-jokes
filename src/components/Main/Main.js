@@ -4,8 +4,9 @@ import stylesJokeCard from "../JokeCard/JokeCard.module.css";
 import stylesFavourite from "../JokeCard/FavouriteList.module.css";
 import { CategorieBtn } from "../JokeCard/";
 import { JokeCard } from "../JokeCard/";
+import { FavouriteList } from "../JokeCard/";
 import { Pagination } from "../Pagination";
-import { closeMenu, favouriteMenu } from "./Icons";
+import { favouriteMenu } from "./Icons";
 
 function Main() {
   /// Pagination states
@@ -16,26 +17,22 @@ function Main() {
 
   const [jokes, setJokes] = useState([]);
   const [favourites, setFavourites] = useState([]);
-  const [status, setStatus] = useState(0);
-  const [statusBurgerMenu, setStatusBurgerMenu] = useState(0);
+  const [statusBurgerMenu, setStatusBurgerMenu] = useState("unActive");
 
   const [categories, setCategories] = useState([]);
   const [categorie, setCategorie] = useState("");
   const [search, setSearch] = useState("");
   const [errorSearch, setErrorSearch] = useState("");
 
-  const [checkedRandomInput, setCheckedRandomInput] = useState(false);
-  const [checkedCategoriesInput, setCheckedCategoriesInput] = useState(false);
-  const [checkedSearchInput, setCheckedSearchInput] = useState(false);
+  const [checkedRadio, setCheckedRadio] = useState("random");
 
   /// LOCALSTORAGE Buttons
 
   function handleAddToLocalStorage(joke) {
-    const newFavouriteList = [...favourites, joke];
+    let newFavouriteList = [...favourites, joke];
     const saveToLocalStorage = (joke) => {
       localStorage.setItem("joke-to-favourite", JSON.stringify(joke));
     };
-
     setFavourites(newFavouriteList);
     saveToLocalStorage(newFavouriteList);
   }
@@ -44,24 +41,13 @@ function Main() {
     const newFavouriteList = favourites.filter((favourite) => {
       return favourite.id !== joke.id;
     });
+    console.log(newFavouriteList);
     const saveToLocalStorage = (joke) => {
       localStorage.setItem("joke-to-favourite", JSON.stringify(joke));
     };
     setFavourites(newFavouriteList);
     saveToLocalStorage(newFavouriteList);
   }
-
-  // useEffects
-
-  useEffect(() => {
-    handleRandomJokeAdd();
-  }, []);
-
-  useEffect(() => {
-    const jokeFavourites =
-      JSON.parse(localStorage.getItem("joke-to-favourite")) || [];
-    setFavourites(jokeFavourites);
-  }, [setFavourites]);
 
   /// FETCH REQUEST
 
@@ -72,23 +58,21 @@ function Main() {
   }
 
   const handleRandomJokeAdd = () => {
-    if (checkedRandomInput.checked) {
+    if (checkedRadio === "random") {
       fetch("https://api.chucknorris.io/jokes/random")
         .then((res) => res.json())
         .then((data) => setJokes([data]))
         .catch((err) => console.log(err));
       setCurrentPage(1);
-      setStatus(1);
     }
-    if (checkedCategoriesInput.checked) {
+    if (checkedRadio === "categorie") {
       fetch(`https://api.chucknorris.io/jokes/random?category=${categorie}`)
         .then((res) => res.json())
         .then((data) => setJokes([data]))
         .catch((err) => console.log(err));
-      setStatus(3);
       setCurrentPage(1);
     }
-    if (checkedSearchInput.checked) {
+    if (checkedRadio === "search") {
       if (search.length >= 3) {
         fetch(`https://api.chucknorris.io/jokes/search?query=${search}`)
           .then((res) => res.json())
@@ -99,10 +83,22 @@ function Main() {
     }
   };
 
+  // useEffects
+
+  useEffect(() => {
+    const jokeFavourites =
+      JSON.parse(localStorage.getItem("joke-to-favourite")) || [];
+    setFavourites(jokeFavourites);
+
+    fetchCategories();
+  }, [setFavourites]);
+
+  //BURGER MENU CHANGE
+
   function burgerMenuChangeStatus() {
-    if (statusBurgerMenu === 1) {
-      setStatusBurgerMenu(0);
-    } else setStatusBurgerMenu(1);
+    if (statusBurgerMenu === "unActive") {
+      setStatusBurgerMenu("active");
+    } else setStatusBurgerMenu("unActive");
   }
 
   /// Get current Jokes
@@ -123,17 +119,13 @@ function Main() {
 
         {/* FORM */}
 
-        <form
-          className={styles.checkbox_block}
-        >
+        <form className={styles.checkbox_block}>
           <label>
             <input
               type="radio"
               name="name1"
-              onChange={(event) => {
-                setCheckedRandomInput(event.target);
-                setStatus(0);
-                setSearch("");
+              onChange={() => {
+                setCheckedRadio("random");
               }}
             />
             Random
@@ -143,11 +135,8 @@ function Main() {
             <input
               type="radio"
               name="name1"
-              onChange={(event) => {
-                fetchCategories();
-                setCheckedCategoriesInput(event.target);
-                setStatus(2);
-                setSearch("");
+              onChange={() => {
+                setCheckedRadio("categorie");
               }}
             />
             From categories
@@ -155,9 +144,7 @@ function Main() {
 
           <div
             className={
-              status === 3
-                ? styles.categorie_btns_block
-                : status === 2
+              checkedRadio === "categorie"
                 ? styles.categorie_btns_block
                 : styles.unActive
             }
@@ -166,6 +153,7 @@ function Main() {
               <CategorieBtn
                 categorie={categorie}
                 setCategorie={setCategorie}
+                categories={categories}
               />
             ))}
           </div>
@@ -174,15 +162,14 @@ function Main() {
             <input
               type="radio"
               name="name1"
-              onChange={(event) => {
-                setCheckedSearchInput(event.target);
-                setStatus(4);
+              onChange={() => {
+                setCheckedRadio("search");
               }}
             />
             Search
           </label>
 
-          {status === 4 ? (
+          {checkedRadio === "search" ? (
             <>
               <input
                 type="text"
@@ -205,8 +192,8 @@ function Main() {
             type="submit"
             className={styles.getJoke_btn}
             onClick={(event) => {
+              event.preventDefault();
               handleRandomJokeAdd(event);
-              event.preventDefault()
             }}
             value="Get a joke"
           />
@@ -247,18 +234,10 @@ function Main() {
 
       <div className={stylesFavourite.favourite_block}>
         <h1>Favourite</h1>
-        {favourites.map((favourite) => {
-          function storageButtonRemove() {
-            handleOnClickRemove(favourite);
-          }
-          return (
-            <JokeCard
-              joke={favourite}
-              styles={stylesFavourite}
-              storageButtons={storageButtonRemove}
-            />
-          );
-        })}
+        <FavouriteList
+          favourites={favourites}
+          handleOnClickRemove={handleOnClickRemove}
+        />
       </div>
 
       {/* ///BURGER MENU FAVOURITES */}
@@ -267,31 +246,25 @@ function Main() {
         className={styles.icon_favourite_menu}
         onClick={() => burgerMenuChangeStatus()}
       >
-        {statusBurgerMenu === 1 ? closeMenu : favouriteMenu}
+        {favouriteMenu}
         <h1>Favourite</h1>
       </span>
       <div
-        className={statusBurgerMenu === 1 ? styles.main_sec_bg_active : null}
+        className={
+          statusBurgerMenu === "active" ? styles.main_sec_bg_active : null
+        }
       ></div>
       <div
         className={
-          statusBurgerMenu === 1
+          statusBurgerMenu === "active"
             ? stylesFavourite.media_favourite_block_active
             : stylesFavourite.media_favourite_block
         }
       >
-        {favourites.map((favourite) => {
-          function storageButtonRemove() {
-            handleOnClickRemove(favourite);
-          }
-          return (
-            <JokeCard
-              joke={favourite}
-              styles={stylesFavourite}
-              storageButtons={storageButtonRemove}
-            />
-          );
-        })}
+        <FavouriteList
+          favourites={favourites}
+          handleOnClickRemove={handleOnClickRemove}
+        />
       </div>
     </div>
   );
