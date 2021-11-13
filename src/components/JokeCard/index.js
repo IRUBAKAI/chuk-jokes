@@ -1,3 +1,2 @@
-export { default as Categories } from "./CategorieList";
-export { default as JokeList } from "./JokeList";
-export { default as SearchList } from "./SearchList";
+export { default as JokeCard } from "./JokeCard";
+export { default as CategorieBtn } from "./CategorieBtn";
