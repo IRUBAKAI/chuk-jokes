@@ -71,8 +71,8 @@ function Main() {
       .then((data) => setCategories(data));
   }
 
-  const handleRandomJokeAdd = (event) => {
-    if (checkedRandomInput.checked === true) {
+  const handleRandomJokeAdd = () => {
+    if (checkedRandomInput.checked) {
       fetch("https://api.chucknorris.io/jokes/random")
         .then((res) => res.json())
         .then((data) => setJokes([data]))
@@ -80,7 +80,7 @@ function Main() {
       setCurrentPage(1);
       setStatus(1);
     }
-    if (checkedCategoriesInput.checked === true) {
+    if (checkedCategoriesInput.checked) {
       fetch(`https://api.chucknorris.io/jokes/random?category=${categorie}`)
         .then((res) => res.json())
         .then((data) => setJokes([data]))
@@ -88,7 +88,7 @@ function Main() {
       setStatus(3);
       setCurrentPage(1);
     }
-    if (checkedSearchInput.checked === true) {
+    if (checkedSearchInput.checked) {
       if (search.length >= 3) {
         fetch(`https://api.chucknorris.io/jokes/search?query=${search}`)
           .then((res) => res.json())
@@ -189,7 +189,6 @@ function Main() {
                 type="text"
                 className={styles.searchInput}
                 placeholder="Free text search..."
-                onKeyDown={(e) => e.key === "Enter" && handleRandomJokeAdd()}
                 onChange={(event) => setSearch(event.target.value)}
               />
               <p className={styles.errorSearch}>{errorSearch}</p>
