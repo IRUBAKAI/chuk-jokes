@@ -42,15 +42,15 @@ function Main() {
   }, [dispatch]);
 
   function handleRandomJokeAdd() {
-    if (checkedRandomInput.checked === true) {
+    if (checkedRandomInput.checked) {
       dispatch(getRandomJoke());
       dispatch({ type: "setStatus", payload: 1 });
     }
-    if (checkedCategoriesInput.checked === true) {
+    if (checkedCategoriesInput.checked) {
       dispatch(getCategorieJoke(categorie));
       dispatch({ type: "setStatus", payload: 3 });
     }
-    if (checkedSearchInput.checked === true) {
+    if (checkedSearchInput.checked) {
       dispatch(getSearchJokes(search));
     }
   }
@@ -107,10 +107,10 @@ function Main() {
               type="radio"
               name="name1"
               onChange={(event) =>
-                dispatch({
+                {dispatch({
                   type: "setCheckedRandomInput",
                   payload: event.target,
-                }) & dispatch({ type: "setStatus", payload: 0 })
+                }); dispatch({ type: "setStatus", payload: 0 })}
               }
             />
             Random
@@ -121,10 +121,10 @@ function Main() {
               type="radio"
               name="name1"
               onChange={(event) =>
-                dispatch({
+                {dispatch({
                   type: "setCheckedCategorieInput",
                   payload: event.target,
-                }) & dispatch({ type: "setStatus", payload: 2 })
+                }); dispatch({ type: "setStatus", payload: 2 })}
               }
             />
             From categories
@@ -149,10 +149,10 @@ function Main() {
               type="radio"
               name="name1"
               onChange={(event) =>
-                dispatch({
+                {dispatch({
                   type: "setCheckedSearchInput",
                   payload: event.target,
-                }) & dispatch({ type: "setStatus", payload: 4 })
+                }); dispatch({ type: "setStatus", payload: 4 })}
               }
             />
             Search
