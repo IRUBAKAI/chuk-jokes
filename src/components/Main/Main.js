@@ -54,10 +54,6 @@ function Main() {
   // useEffects
 
   useEffect(() => {
-    handleRandomJokeAdd();
-  }, []);
-
-  useEffect(() => {
     const jokeFavourites =
       JSON.parse(localStorage.getItem("joke-to-favourite")) || [];
     setFavourites(jokeFavourites);
