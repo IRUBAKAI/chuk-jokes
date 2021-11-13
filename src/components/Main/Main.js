@@ -29,7 +29,7 @@ function Main() {
   /// LOCALSTORAGE Buttons
 
   function handleAddToLocalStorage(joke) {
-    let newFavouriteList = [...favourites, joke];
+    const newFavouriteList = [...favourites, joke];
     const saveToLocalStorage = (joke) => {
       localStorage.setItem("joke-to-favourite", JSON.stringify(joke));
     };
