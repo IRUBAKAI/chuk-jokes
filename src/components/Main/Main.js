@@ -237,7 +237,7 @@ function Main() {
         {favourites.map((favourite) => {
           return (
             <FavouriteList
-              favourites={favourite}
+              favourite={favourite}
               handleOnClickRemove={handleOnClickRemove}
             />
           );
@@ -268,7 +268,7 @@ function Main() {
         {favourites.map((favourite) => {
           return (
             <FavouriteList
-              favourites={favourite}
+              favourite={favourite}
               handleOnClickRemove={handleOnClickRemove}
             />
           );
