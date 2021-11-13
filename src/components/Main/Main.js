@@ -29,7 +29,7 @@ function Main() {
   /// LOCALSTORAGE Buttons
 
   function handleAddToLocalStorage(joke) {
-    let newFavouriteList = [...favourites, joke];
+    const newFavouriteList = [...favourites, joke];
     const saveToLocalStorage = (joke) => {
       localStorage.setItem("joke-to-favourite", JSON.stringify(joke));
     };
@@ -234,10 +234,14 @@ function Main() {
 
       <div className={stylesFavourite.favourite_block}>
         <h1>Favourite</h1>
+        {favourites.map((favourite) => {
+          return(
         <FavouriteList
-          favourites={favourites}
+          favourites={favourite}
           handleOnClickRemove={handleOnClickRemove}
         />
+          )
+        })}
       </div>
 
       {/* ///BURGER MENU FAVOURITES */}
@@ -261,10 +265,14 @@ function Main() {
             : stylesFavourite.media_favourite_block
         }
       >
+         {favourites.map((favourite) => {
+          return(
         <FavouriteList
-          favourites={favourites}
+          favourites={favourite}
           handleOnClickRemove={handleOnClickRemove}
         />
+          )
+        })}
       </div>
     </div>
   );
