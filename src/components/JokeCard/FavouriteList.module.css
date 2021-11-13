@@ -86,7 +86,7 @@
   }
   .media_favourite_block_active {
     min-width: 500px;
-    min-height: 935px;
+    min-height: 100%;
     background: #f8f8f8;
     padding: 150px 40px 40px 50px;
     position: fixed;
