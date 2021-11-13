@@ -5,7 +5,7 @@ import stylesFavourite from "../JokeCard/FavouriteList.module.css";
 import { CategorieBtn } from "../JokeCard/";
 import { JokeCard } from "../JokeCard/";
 import { Pagination } from "../Pagination";
-import { favouriteMenu } from "./Icons";
+import { closeMenu, favouriteMenu } from "./Icons";
 
 function Main() {
   /// Pagination states
@@ -166,7 +166,6 @@ function Main() {
               <CategorieBtn
                 categorie={categorie}
                 setCategorie={setCategorie}
-                categories={categories}
               />
             ))}
           </div>
@@ -268,7 +267,7 @@ function Main() {
         className={styles.icon_favourite_menu}
         onClick={() => burgerMenuChangeStatus()}
       >
-        {favouriteMenu}
+        {statusBurgerMenu === 1 ? closeMenu : favouriteMenu}
         <h1>Favourite</h1>
       </span>
       <div
