@@ -235,12 +235,12 @@ function Main() {
       <div className={stylesFavourite.favourite_block}>
         <h1>Favourite</h1>
         {favourites.map((favourite) => {
-          return(
-        <FavouriteList
-          favourites={favourite}
-          handleOnClickRemove={handleOnClickRemove}
-        />
-          )
+          return (
+            <FavouriteList
+              favourites={favourite}
+              handleOnClickRemove={handleOnClickRemove}
+            />
+          );
         })}
       </div>
 
@@ -265,13 +265,13 @@ function Main() {
             : stylesFavourite.media_favourite_block
         }
       >
-         {favourites.map((favourite) => {
-          return(
-        <FavouriteList
-          favourites={favourite}
-          handleOnClickRemove={handleOnClickRemove}
-        />
-          )
+        {favourites.map((favourite) => {
+          return (
+            <FavouriteList
+              favourites={favourite}
+              handleOnClickRemove={handleOnClickRemove}
+            />
+          );
         })}
       </div>
     </div>
