@@ -4,9 +4,8 @@ import stylesJokeCard from "../JokeCard/JokeCard.module.css";
 import stylesFavourite from "../JokeCard/FavouriteList.module.css";
 import { JokeCard } from "../JokeCard/";
 import { Pagination } from "../Pagination";
-import Form from "../Form/Form";
-import {BurgerMenu} from "../BurgerMenu/";
-
+import { BurgerMenu } from "../BurgerMenu/";
+import { Form } from "../Form/";
 import {
   fetchCategories,
   handleAddToLocalStorage,
@@ -111,11 +110,11 @@ function Main() {
       {/* ///BURGER MENU FAVOURITES */}
       {favourites.map((favourite) => (
         <BurgerMenu
-        styles={styles}
-        stylesFavourite={stylesFavourite}
-        favourite={favourite}
-        handleOnClickRemove={handleOnClickRemove}
-      />
+          styles={styles}
+          stylesFavourite={stylesFavourite}
+          favourite={favourite}
+          handleOnClickRemove={handleOnClickRemove}
+        />
       ))}
     </div>
   );

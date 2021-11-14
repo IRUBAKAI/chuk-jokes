@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { favouriteMenu } from "../Main/Icons";
+import { favouriteMenu, closeMenu } from "../Main/Icons";
 import JokeCard from "../JokeCard/JokeCard";
 
 export default function BurgerMenu({
@@ -24,7 +24,7 @@ export default function BurgerMenu({
         className={styles.icon_favourite_menu}
         onClick={() => burgerMenuChangeStatus()}
       >
-        {favouriteMenu}
+        {statusBurgerMenu === 'active' ? closeMenu : favouriteMenu}
         <h1>Favourite</h1>
       </span>
       <div

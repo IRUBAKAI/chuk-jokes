@@ -1,1 +1,1 @@
-export {default as From} from "./Form"
+export {default as Form} from "./Form"
