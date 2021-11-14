@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import styles from "./Main.module.css";
 import stylesJokeCard from "../JokeCard/JokeCard.module.css";
 import stylesFavourite from "../JokeCard/FavouriteList.module.css";
-import { CategorieBtn } from "../JokeCard/index";
-import { JokeCard } from "../JokeCard/index";
+import { JokeCard } from "../JokeCard/";
 import { Pagination } from "../Pagination";
+import { Form } from "../Form/";
+import { BurgerMenu } from "../BurgerMenu"
 import { useSelector, useDispatch } from "react-redux";
 import {
   getCategorieJoke,
@@ -22,19 +23,12 @@ function Main() {
   const joke = useSelector((state) => state.reducer.joke);
   const categories = useSelector((state) => state.reducer.categories);
   const categorie = useSelector((state) => state.reducer.categorie);
-  const status = useSelector((state) => state.reducer.status);
   const search = useSelector((state) => state.reducer.search);
-  const favourites = useSelector((state) => state.reducer.favourites);
-  const checkedRandomInput = useSelector(
-    (state) => state.checkedInput.checkedRandomInput
-  );
-  const checkedCategoriesInput = useSelector(
-    (state) => state.checkedInput.checkedCategoriesInput
-  );
-  const checkedSearchInput = useSelector(
-    (state) => state.checkedInput.checkedSearchInput
-  );
+  const favourites = useSelector((state) => state.favouriteReducer.favourites);
   const currentPage = useSelector((state) => state.reducer.currentPage);
+  const checkedRadio = useSelector(
+    (state) => state.checkedReducer.checkedRadio
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -42,15 +36,15 @@ function Main() {
   }, [dispatch]);
 
   function handleRandomJokeAdd() {
-    if (checkedRandomInput.checked) {
+    if (checkedRadio === "random") {
       dispatch(getRandomJoke());
       dispatch({ type: "setStatus", payload: 1 });
     }
-    if (checkedCategoriesInput.checked) {
+    if (checkedRadio === "categorie") {
       dispatch(getCategorieJoke(categorie));
       dispatch({ type: "setStatus", payload: 3 });
     }
-    if (checkedSearchInput.checked) {
+    if (checkedRadio === "search") {
       dispatch(getSearchJokes(search));
     }
   }
@@ -84,7 +78,6 @@ function Main() {
     dispatch({ type: "setFavourites", payload: jokeFavourites });
   }, [dispatch]);
 
-  /// FETCH REQUEST
 
   /// Get current Jokes
 
@@ -101,81 +94,12 @@ function Main() {
           <h1>Hey!</h1>
           <h2>Let’s try to find a joke for you:</h2>
         </div>
-        <form className={styles.checkbox_block}>
-          <label>
-            <input
-              type="radio"
-              name="name1"
-              onChange={(event) =>
-                {dispatch({
-                  type: "setCheckedRandomInput",
-                  payload: event.target,
-                }); dispatch({ type: "setStatus", payload: 0 })}
-              }
-            />
-            Random
-          </label>
 
-          <label>
-            <input
-              type="radio"
-              name="name1"
-              onChange={(event) =>
-                {dispatch({
-                  type: "setCheckedCategorieInput",
-                  payload: event.target,
-                }); dispatch({ type: "setStatus", payload: 2 })}
-              }
-            />
-            From categories
-          </label>
-
-          <div
-            className={
-              status === 3
-                ? styles.categorie_btns_block
-                : status === 2
-                ? styles.categorie_btns_block
-                : styles.unActive
-            }
-          >
-            {categories.map((categorie) => (
-              <CategorieBtn categorie={categorie} />
-            ))}
-          </div>
-
-          <label>
-            <input
-              type="radio"
-              name="name1"
-              onChange={(event) =>
-                {dispatch({
-                  type: "setCheckedSearchInput",
-                  payload: event.target,
-                }); dispatch({ type: "setStatus", payload: 4 })}
-              }
-            />
-            Search
-          </label>
-
-          {status === 4 ? (
-            <input
-              type="text"
-              className={styles.searchInput}
-              placeholder="Free text search..."
-              onChange={(event) =>
-                dispatch({ type: "setSearch", payload: event.target.value })
-              }
-            />
-          ) : null}
-
-          <input
-            type="button"
-            className={styles.getJoke_btn}
-            onClick={() => handleRandomJokeAdd()}
-            value="Get a joke"
-          />
-        </form>
+        <Form
+          handleRandomJokeAdd={handleRandomJokeAdd}
+          categories={categories}
+          currentJokes={currentJokes}
+        />
 
         <div>
           {currentJokes.map((joke) => {
@@ -217,8 +141,16 @@ function Main() {
           );
         })}
       </div>
-      </div>
 
+      {favourites.map((favourite) => (
+        <BurgerMenu 
+          styles={styles}
+          stylesFavourite={stylesFavourite}
+          favourite={favourite}
+          handleOnClickRemove={handleOnClickRemove}
+        />
+      ))}
+    </div>
   );
 }
 

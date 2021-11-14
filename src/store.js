@@ -12,12 +12,7 @@ function reducer(
     joke: [],
     categories: [],
     categorie: " ",
-    status: 0,
     search: " ",
-    favourites: [],
-    checkedRandomInput: false,
-    checkedCategoriesInput: false,
-    checkedSearchInput: false,
     currentPage: 1,
   },
   action
@@ -38,14 +33,8 @@ function reducer(
     case "getCategorie": {
       return { ...state, categorie: action.payload };
     }
-    case "setStatus": {
-      return { ...state, status: action.payload };
-    }
     case "setSearch": {
       return { ...state, search: action.payload };
-    }
-    case "setFavourites": {
-      return { ...state, favourites: action.payload };
     }
     case "setCurrentPage": {
       return { ...state, currentPage: action.payload };
@@ -55,31 +44,53 @@ function reducer(
     }
   }
 }
-
-function checkedReducer(
-  state = {
-    checkedRandomInput: false,
-    checkedCategoriesInput: false,
-    checkedSearchInput: false,
-  },
-  action
-) {
+function errorReducer(state = { errorSearch: "" }, action) {
   switch (action.type) {
-    case "setCheckedRandomInput": {
-      return { ...state, checkedRandomInput: action.payload };
-    }
-    case "setCheckedCategorieInput": {
-      return { ...state, checkedCategoriesInput: action.payload };
-    }
-    case "setCheckedSearchInput": {
-      return { ...state, checkedSearchInput: action.payload };
+    case "setError": {
+      return { ...state, errorSearch: action.payload };
     }
     default: {
-      return state
+      return state;
     }
   }
 }
 
-const store = createStore(combineReducers({reducer: reducer, checkedInput: checkedReducer}), applyMiddleware(thunk));
+function favouriteReducer(
+  state = { statusBurgerMenu: "unActive", favourites: [] },
+  action
+) {
+  switch (action.type) {
+    case "setStatusBurgerMenu": {
+      return { ...state, statusBurgerMenu: action.payload };
+    }
+    case "setFavourites": {
+      return { ...state, favourites: action.payload };
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+function checkedReducer(state = { checkedRadio: 'random' }, action) {
+  switch (action.type) {
+    case "setCheckedRadio": {
+      return { ...state, checkedRadio: action.payload };
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+const store = createStore(
+  combineReducers({
+    reducer: reducer,
+    checkedReducer: checkedReducer,
+    favouriteReducer: favouriteReducer,
+    errorReducer: errorReducer,
+  }),
+  applyMiddleware(thunk)
+);
 
 export default store;

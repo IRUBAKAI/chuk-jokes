@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux"
 import styles from "./Pagination.module.css"
 
-function Pagination({ pages = 5, setCurrentPage }) {
+function Pagination({ pages = 5 }) {
 
   //Set number of pages
   const numberOfPages = []
@@ -11,12 +12,13 @@ function Pagination({ pages = 5, setCurrentPage }) {
 
   // Current active button number
   const [currentButton, setCurrentButton] = useState(1)
+  const dispatch = useDispatch()
 
   // Array of buttons what we see on the page
 
   useEffect(() => {
-    setCurrentPage(currentButton)
-  }, [currentButton, setCurrentPage])
+    dispatch({type: 'setCurrentPage', payload: currentButton})
+  }, [dispatch, currentButton])
 
   return (
     <div className={styles.pagination_container}>
