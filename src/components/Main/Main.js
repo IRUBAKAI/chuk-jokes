@@ -4,8 +4,9 @@ import stylesJokeCard from "../JokeCard/JokeCard.module.css";
 import stylesFavourite from "../JokeCard/FavouriteList.module.css";
 import { JokeCard } from "../JokeCard/";
 import { Pagination } from "../Pagination";
-import { favouriteMenu } from "./Icons";
-import Form from "./Form";
+import Form from "../Form/Form";
+import {BurgerMenu} from "../BurgerMenu/";
+
 import {
   fetchCategories,
   handleAddToLocalStorage,
@@ -21,7 +22,6 @@ function Main() {
 
   const [jokes, setJokes] = useState([]);
   const [favourites, setFavourites] = useState([]);
-  const [statusBurgerMenu, setStatusBurgerMenu] = useState("unActive");
   const [categories, setCategories] = useState([]);
 
   // useEffects
@@ -33,14 +33,6 @@ function Main() {
 
     fetchCategories(setCategories);
   }, []);
-
-  //BURGER MENU CHANGE
-
-  function burgerMenuChangeStatus() {
-    if (statusBurgerMenu === "unActive") {
-      setStatusBurgerMenu("active");
-    } else setStatusBurgerMenu("unActive");
-  }
 
   /// Get current Jokes
 
@@ -117,39 +109,14 @@ function Main() {
       </div>
 
       {/* ///BURGER MENU FAVOURITES */}
-
-      <span
-        className={styles.icon_favourite_menu}
-        onClick={() => burgerMenuChangeStatus()}
-      >
-        {favouriteMenu}
-        <h1>Favourite</h1>
-      </span>
-      <div
-        className={
-          statusBurgerMenu === "active" ? styles.main_sec_bg_active : null
-        }
-      ></div>
-      <div
-        className={
-          statusBurgerMenu === "active"
-            ? stylesFavourite.media_favourite_block_active
-            : stylesFavourite.media_favourite_block
-        }
-      >
-        {favourites.map((favourite) => {
-          function storageButtonRemove() {
-            handleOnClickRemove(favourite);
-          }
-          return (
-            <JokeCard
-              joke={favourite}
-              styles={stylesFavourite}
-              storageButtons={storageButtonRemove}
-            />
-          );
-        })}
-      </div>
+      {favourites.map((favourite) => (
+        <BurgerMenu
+        styles={styles}
+        stylesFavourite={stylesFavourite}
+        favourite={favourite}
+        handleOnClickRemove={handleOnClickRemove}
+      />
+      ))}
     </div>
   );
 }

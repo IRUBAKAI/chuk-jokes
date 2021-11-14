@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import styles from "./Main.module.css";
+import styles from "../Main/Main.module.css";
 import { CategorieBtn } from "../JokeCard";
-import { handleRandomJokeAdd } from "./helpers";
+import { handleRandomJokeAdd } from "../Main/helpers";
 
 export default function Form({
   categories,
@@ -92,7 +92,6 @@ export default function Form({
               setErrorSearch,
               categorie
             );
-            console.log("asdasd");
           }}
           value="Get a joke"
         />
